@@ -45,8 +45,8 @@ def add_file():
 
 @app.route('/filelisting')
 def list_files():
-    #if not session.get('logged_in'):
-     #   abort(401)
+    if not session.get('logged_in'):
+        abort(401)
     """list the files in a directory"""
     lst = []
     rootdir = os.getcwd()
