@@ -30,7 +30,7 @@ def add_file():
     if not session.get('logged_in'):
         abort(401)
 
-    file_folder = ''
+    file_folder = app.config['UPLOAD_FOLDER']
 
     if request.method == 'POST':
         file = request.files['file']
@@ -41,6 +41,19 @@ def add_file():
         return redirect(url_for('home'))
 
     return render_template('add_file.html')
+
+
+@app.route('/filelisting')
+def list_files():
+    #if not session.get('logged_in'):
+     #   abort(401)
+    """list the files in a directory"""
+    lst = []
+    rootdir = os.getcwd()
+    for subdir, dirs, files in os.walk(rootdir + '/app/static/uploads/'):
+        for file in files:
+           lst.append(file)
+        return render_template("display_files.html",lst=lst)
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
